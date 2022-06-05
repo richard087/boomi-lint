@@ -37,21 +37,6 @@ function Build-RuleMeta([string]$RuleId, [string]$RuleName, [string]$DefaultMess
     }
 }
 
-function Run-ProfileRule001([xml]$Component){
-    if (! ($component.Result.name -cmatch '^Profile: ') ) {
-        $msg = "Profile name '" + $Component.Result.name + "' does not match pattern for profile names: Profile:  + [Application] + {Object} + {Profile Type} + {Request|Response [if applicable]}"
-        return Build-Result -RuleId 'ProfileRule001' -Level "warning" -Component $Component -Text $msg
-    }
-    return $null
-}
-
-function Run-ProcessRule001([xml]$component){
-    if (! ($component.Result.name -cmatch '^([[:alnum:]-]+ |\(Sub\) |Endpoint)Process: .+') ) {
-        $msg = "Process name '" + $component.Result.name + "' does not match pattern for process names: {Interface Id} + Process: + [Source System] + {Object} + {Action Performed} + [Destination System]"
-        return Build-Result -RuleId 'ProcessRule001' -Level "warning" -Component $Component -Text $msg
-    }
-    return $null
-}
 
 
 function Format-RulesMeta([Xml]$Rules){
