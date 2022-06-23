@@ -79,7 +79,7 @@ schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata
         "driver": {
           "name": "boomi-lint",
           "version" : "0.1-alpha",
-          "informationUri":"https://google.com",
+          "informationUri":"https://github.com/richard087/boomi-lint",
           "rules" :
 "@ +
 (Format-RulesMeta -Rules $Rules ) + @"
