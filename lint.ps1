@@ -1,7 +1,9 @@
-$FolderToCheck = "C:\Users\Wilbur\Documents\boomi-history\components"
-$BoomiAccountId = "trainingmredthehorse-ABC12D"
-$RulesFileName = 'BoomiSonarQubeRules.xml'
-
+# Configuration
+param ( 
+    [string]$FolderToCheck = 'C:\atomsphere-repo\components',
+    [string]$BoomiAccountId = 'company-ABC1DE',
+    [string]$RulesFileName = 'BoomiSonarQubeRules.xml'
+)
 
 function Run-XPath([xml]$Document, [string]$Xpath) {
     return Select-Xml -XPath $xpath -Xml $Document -Namespace @{"bns" = "http://api.platform.boomi.com/"}
@@ -37,8 +39,6 @@ function Build-RuleMeta([string]$RuleId, [string]$RuleName, [string]$DefaultMess
     }
 }
 
-
-
 function Format-RulesMeta([Xml]$Rules){
     return ($Rules.profile.rules.rule | %{
             $msg = Select-Xml -Xml $_ -XPath "parameters/parameter[key = 'message']/value"
@@ -46,7 +46,6 @@ function Format-RulesMeta([Xml]$Rules){
         } | ConvertTo-Json -Depth 5
     )
 }
-
 
 function Get-Results([string]$FolderToCheck, [xml]$Rules) {
     $results = [System.Collections.ArrayList]@()
@@ -65,6 +64,7 @@ function Get-Results([string]$FolderToCheck, [xml]$Rules) {
     }
     return $results
 }
+
 function ConvertTo-Sarif([string]$FolderToCheck, [string]$BoomiAccountId, [string]$RulesFileName){
     [Xml]$Rules = Get-content $RulesFileName
     return @"
@@ -78,7 +78,7 @@ schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata
       "tool": {
         "driver": {
           "name": "boomi-lint",
-          "version" : "0.1-alpha",
+          "version" : "0.1-beta",
           "informationUri":"https://github.com/richard087/boomi-lint",
           "rules" :
 "@ +
